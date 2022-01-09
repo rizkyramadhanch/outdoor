@@ -11,12 +11,23 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-  - env:
-      - CGO_ENABLED=0
-    goos:
-      - linux
-      - windows
-      - darwin
+- id: outdoor
+  main: .
+  binary: outdoor
+  goos:
+    - linux
+    - windows
+    - darwin
+    - windows
+  goarch:
+  - 386
+  - amd64
+  - arm
+  - arm64
+  goarm:
+  - 6
+  - 7
+  
 archives:
   - replacements:
       darwin: Darwin
@@ -28,9 +39,14 @@ checksum:
   name_template: 'checksums.txt'
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
+
 changelog:
   sort: asc
   filters:
     exclude:
       - '^docs:'
       - '^test:'
+github_urls:
+  download: https://github.com
+
+dist: dist
